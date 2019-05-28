@@ -18,6 +18,10 @@ type KafkaClient struct {
 	Client *kafka.Conn
 }
 
+type KafkaMessage struct {
+	Message string `json:"message"`
+}
+
 func NewKafkaWriter(settings KafkaSettings) (*KafkaClient, error) {
 	log.Info().Msgf("connection kafka settings: %v", settings)
 	conn, err := kafka.DialLeader(context.Background(), settings.Network, settings.ListenAddress, settings.Topic, settings.Partition)
@@ -34,10 +38,4 @@ func NewKafkaWriter(settings KafkaSettings) (*KafkaClient, error) {
 	return &KafkaClient{
 		Client: conn,
 	}, nil
-}
-
-type KafkaMessage struct {
-	Topic   string `json:"topic"`
-	Message string `json:"message"`
-	Key     string `json:"key"`
 }

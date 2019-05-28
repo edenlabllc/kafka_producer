@@ -88,11 +88,6 @@ func (gs *goGenServ) HandleCall(from *etf.Tuple, message *etf.Term, state interf
 
 			log.Info().Msgf("request_id: %s message: %+v", requestID, kafkaMessage)
 
-			if len(kafkaMessage.Topic) == 0 {
-				replyTerm = etf.Term(etf.Tuple{etf.Atom("error"), "No valid topic"})
-				return
-			}
-
 			kafkaClient := inState.KafkaClient
 			//defer kafkaClient.Client.Close()
 
