@@ -40,6 +40,14 @@ func (gs *goGenServ) Init(args ...interface{}) (state interface{}) {
 		panic(err)
 	}
 
+	defer func() {
+		err := client.Client.Close()
+		if err != nil {
+			log.Error().Err(err).Msg("Can not close kafka client")
+			panic(err)
+		}
+	}()
+
 	// Self-registration with name gen_server_name
 	gs.Node.Register(etf.Atom(gs.ServerName), gs.Self)
 
